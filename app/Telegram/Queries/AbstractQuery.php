@@ -12,11 +12,8 @@ abstract class AbstractQuery
     public static function match(string $data) {
         $actions = collect(config('telegram.bots.default.queries', []));
 
-        Log::info("firstwhere");
         $action = $actions
             ->firstWhere(fn ($action) => preg_match(forward_static_call([$action, 'getRegex']), $data));
-
-        Log::info("Action found:" . $action);
 
         return $action;
     }

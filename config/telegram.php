@@ -1,5 +1,9 @@
 <?php
 
+use App\Telegram\Commands\StartCommand;
+use App\Telegram\Queries\InlineButtonsQuery;
+use App\Telegram\Queries\RandomNumberQuery;
+use App\Telegram\Queries\TestBtnQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
 return [
@@ -43,9 +47,9 @@ return [
                 App\Telegram\Commands\StartCommand::class,
             ],
             'queries' => [
-                App\Telegram\Queries\AbstractQuery::class,
-                App\Telegram\Queries\InlineButtonsQuery::class,
-                App\Telegram\Queries\RandomNumberQuery::class
+                TestBtnQuery::class,
+                RandomNumberQuery::class,
+                InlineButtonsQuery::class,
             ]
         ],
     ],
