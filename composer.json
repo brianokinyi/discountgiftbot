@@ -12,6 +12,7 @@
         "laravel/jetstream": "^5.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "ramsey/uuid": "^4.7",
         "tightenco/ziggy": "^2.0",
         "webpatser/laravel-countries": "dev-bugfix"
     },

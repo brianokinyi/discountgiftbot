@@ -11,6 +11,7 @@ use App\Telegram\Queries\AbstractQuery;
 use Webpatser\Countries\Countries;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Uuid;
 
 class GiftCardsQuery extends AbstractQuery
 {
@@ -38,17 +39,18 @@ class GiftCardsQuery extends AbstractQuery
         $this->brand = Brand::where('slug', $brand_slug)->with(['giftCards.country'])->firstOrFail();
 
         $order = Order::create([
+            'uuid' => Uuid::uuid7(),
             'gift_card_id' => ''
         ]);
 
         $response = Http::withHeaders([
             'x-api-key' => config('nowpayments.api_key')
         ])->post('https://api.nowpayments.io/v1/v1/payment', [
-            "price_amount" => 3999.5,
+            "price_amount" => $order->price,
             "price_currency" => "usd",
             "pay_currency" => "btc",
             "ipn_callback_url" => route('nowpayments.callback'),
-            "order_id" => "RGDBP-21314",
+            "order_id" => $order->uuid,
             "order_description" => "Apple Macbook Pro 2019 x 1"
         ]);
 
@@ -56,16 +58,37 @@ class GiftCardsQuery extends AbstractQuery
             Log::error("Failed to fetch currencies with error " . $response);
         }
 
-        $text = "*$100 Amazon Gift Card!*\n\n" .
-                "💎 *Original Price:* \$100\n" .
-                "💎 *Discount:* 55%\n" .
-                "💎 *Final Price:* \$45.00\n\n" .
-                "💰 *Select your payment method:*";
+        $text = "🛒 Amazon Gift Card Payment\n\n" .
+                "🔹 Order ID:* \$100\n" .
+                "🔹 Amount: $45.00 \n" .
+                "🔹 Payment Method: BITCOIN \n\n" .
+                "🔹 Send exactly: 0.00075192" .
+                "🔹 To the address: " . 
+                "📜 Details:" . 
+                "- Gift Card Value: $100" . 
+                "- Discount: 55%" .
+                "- Final Price: $45.00" .
+                "🔸 Please complete the payment within the next 30 minutes." .
+                "🔸 You can copy the address and the amount by simply clicking on it";
 
         return $event->telegram->sendMessage([
             'chat_id' => $event->update->getChat()->id,
             'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
             'text' => $text
         ]);
+    }
+
+     /**
+     * @throws \JsonException
+     */
+    private function buildKeyboard(): false|string
+    {
+        return json_encode([
+            'inline_keyboard' => [
+                [
+                    ['text' => '🔙 Back', 'callback_data' => 'brands'],
+                ]
+            ]
+        ], JSON_THROW_ON_ERROR);
     }
 }
