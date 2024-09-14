@@ -10,7 +10,7 @@ use App\Telegram\Queries\AbstractQuery;
 
 class BrandsQuery extends AbstractQuery
 {
-    protected static string $regex = '/brands/';
+    protected static string $regex = '/^brands$/';
 
     /**
      * @param UpdateEvent $event
@@ -22,12 +22,17 @@ class BrandsQuery extends AbstractQuery
     {
         return $event->telegram->sendMessage([
             'chat_id' => $event->update->getChat()->id,
-            'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
             'text' => '🛍️ Shop 🛍️
 
 Please select the gift card you want to purchase:
 
-Use the navigation buttons below to browse through different pages of available gift cards.'
+Use the navigation buttons below to browse through different pages of available gift cards.',
+            'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
+            'disable_notification' => true,
+            'reply_parameters' => [
+                'chat_id' => $event->update->getChat()->id,
+                'allow_sending_without_reply' => true
+            ]
         ]);
     }
 
@@ -41,7 +46,7 @@ Use the navigation buttons below to browse through different pages of available 
         $inline_keyboard = collect([]);
 
         foreach ($brands as $brand) {
-            $inline_keyboard->push([['text' => $brand->name, 'callback_data' => $brand->slug]]);
+            $inline_keyboard->push([['text' => $brand->name, 'callback_data' => 'brands_' . $brand->slug]]);
         }
 
         // Add controls
@@ -52,7 +57,7 @@ Use the navigation buttons below to browse through different pages of available 
         ]);
 
         return json_encode([
-            'inline_keyboard' => $inline_keyboard
+            'inline_keyboard' => $inline_keyboard,
         ], JSON_THROW_ON_ERROR);
     }
 }

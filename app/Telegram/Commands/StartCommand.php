@@ -17,14 +17,13 @@ class StartCommand extends Command
     public function handle(): void
     {
         $text = '✨ Welcome to the Gift Card Bot! ✨
-
+        
 🎁 Here you can purchase gift cards at amazing discounts! 
 
 🛍️ How it works: 
 1. Choose a gift card from the shop. 
 2. Complete the payment. 
-3. Receive your gift card instantly!
-
+3. Receive your gift card instantly! 
 🔽 Use the buttons below to navigate: 🔽';
 
         $this->replyWithMessage([

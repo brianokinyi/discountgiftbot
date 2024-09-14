@@ -11,9 +11,9 @@ class Brand extends Model
     use HasFactory;
 
     /**
-     * Get the comments for the blog post.
+     * Get the Gift Cards that exist on this brand.
      */
-    public function comments(): HasMany
+    public function giftCards(): HasMany
     {
         return $this->hasMany(GiftCard::class);
     }
