@@ -35,8 +35,8 @@ class BotController extends Controller
     {
         try {
             Telegram::on('callback_query.text', function (UpdateEvent $event) {
+                Log::info(json_encode($event));
                 $action = AbstractQuery::match($event->update->callbackQuery->data);
-                // $action = \App\Telegram\Queries\InlineButtonsQuery::class ;
 
                 if ($action) {
                     $action = new $action();

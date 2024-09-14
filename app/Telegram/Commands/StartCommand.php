@@ -33,7 +33,7 @@ class StartCommand extends Command
         return json_encode([
             'inline_keyboard' => [
                 [
-                    ['text' => '🛍️ SHOP', 'callback_data' => 'inline_kbd']
+                    ['text' => '🛍️ SHOP', 'callback_data' => 'products']
                 ],
                 [
                     ['text' => '❓ FAQ', 'callback_data' => 'random_number'],
@@ -47,7 +47,7 @@ class StartCommand extends Command
                     ['text' => '🔗 REFERRAL SYSTEM', 'callback_data' => 'referrals']
                 ],
                 [
-                    ['text' => '📜 Vouches', 'callback_data' => 'vouchers']
+                    ['text' => '📜 Vouchers', 'callback_data' => 'vouchers']
                 ],
             ]
         ], JSON_THROW_ON_ERROR);
