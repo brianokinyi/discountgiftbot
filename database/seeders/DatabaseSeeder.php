@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            CountriesSeeder::class]
-        );
+            CountriesSeeder::class,
+            BrandSeeder::class
+        ]);
 
         // User::factory(10)->withPersonalTeam()->create();
 
