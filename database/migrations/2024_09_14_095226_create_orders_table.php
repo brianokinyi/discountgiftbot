@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('chat_id');
+            $table->string('username');
+            $table->unsignedBigInteger('gift_card_id');
+            $table->foreign('gift_card_id')->references('id')->on('gift_cards');
+            $table->float('amount', 3);
             $table->timestamps();
         });
     }

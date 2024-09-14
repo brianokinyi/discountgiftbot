@@ -21,6 +21,8 @@ return new class extends Migration
             $table->float('discount', 2);
             $table->boolean('in_stock')->default(true);
             $table->timestamps();
+
+            $table->unique(['country_id', 'brand_id', 'value']);
         });
     }
 
