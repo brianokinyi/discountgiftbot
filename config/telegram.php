@@ -2,8 +2,8 @@
 
 use App\Telegram\Commands\StartCommand;
 use App\Telegram\Queries\InlineButtonsQuery;
+use App\Telegram\Queries\Brands\BrandsQuery;
 use App\Telegram\Queries\RandomNumberQuery;
-use App\Telegram\Queries\Products\ProductsQuery;
 use App\Telegram\Queries\TestBtnQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
@@ -51,7 +51,7 @@ return [
                 TestBtnQuery::class,
                 RandomNumberQuery::class,
                 InlineButtonsQuery::class,
-                ProductsQuery::class,
+                BrandsQuery::class,
             ]
         ],
     ],
