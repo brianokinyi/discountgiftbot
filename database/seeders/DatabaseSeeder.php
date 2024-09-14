@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CountriesSeeder::class,
-            BrandSeeder::class
+            BrandSeeder::class,
+            GiftCardSeeder::class
         ]);
 
         // User::factory(10)->withPersonalTeam()->create();
