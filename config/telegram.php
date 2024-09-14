@@ -1,11 +1,7 @@
 <?php
 
-use App\Telegram\Commands\StartCommand;
-use App\Telegram\Queries\InlineButtonsQuery;
 use App\Telegram\Queries\Brands\BrandsQuery;
 use App\Telegram\Queries\Countries\CountriesQuery;
-use App\Telegram\Queries\RandomNumberQuery;
-use App\Telegram\Queries\TestBtnQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
 return [
@@ -50,10 +46,7 @@ return [
             ],
             'queries' => [
                 BrandsQuery::class,
-                CountriesQuery::class,
-                TestBtnQuery::class,
-                RandomNumberQuery::class,
-                InlineButtonsQuery::class,
+                CountriesQuery::class
             ]
         ],
     ],
