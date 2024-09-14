@@ -46,7 +46,7 @@ class SetupCountriesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop(\Config::get('countries.table_name'));
+		Schema::drop(Config::get('countries.table_name'));
 	}
 
 }
