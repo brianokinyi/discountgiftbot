@@ -2,12 +2,16 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Commands\Command;
 use JsonException;
 
 class StartCommand extends Command
 {
     protected string $name = 'start';
+
+    protected string $pattern = '{telegram_id}';
 
     protected string $description = 'Start command to get you started';
 
@@ -16,15 +20,27 @@ class StartCommand extends Command
      */
     public function handle(): void
     {
-        $text = '✨ Welcome to the Gift Card Bot! ✨
-        
-🎁 Here you can purchase gift cards at amazing discounts! 
+        // $referrer_id = $this->argument('telegram_id');
+        // Create or update this user
+        $user = User::updateOrCreate(
+            [ 
+                'telegram_id' => $this->getUpdate()->getMessage()->from->id 
+            ],
+            [
+                'telegram_id' => $this->getUpdate()->getMessage()->from->id,
+                'username' =>  $this->getUpdate()->getMessage()->from->username,
+                'first_name' =>  $this->getUpdate()->getMessage()->from->first_name,
+            ]
+        );
 
-🛍️ How it works: 
-1. Choose a gift card from the shop. 
-2. Complete the payment. 
-3. Receive your gift card instantly! 
-🔽 Use the buttons below to navigate: 🔽';
+        $text = "✨ Welcome to the Gift Card Bot! ✨ \n\n" . 
+                "🎁 Here you can purchase gift cards at amazing discounts! \n\n" . 
+                "🛍️ How it works:\n" . 
+                "1. Choose a gift card from the shop.\n" .
+                "2. Complete the payment.\n" .
+                "3. Receive your gift card instantly! \n\n" .
+                "🔽 Use the buttons below to navigate: 🔽";
+
 
         $this->replyWithMessage([
             'text' => $text,
@@ -44,18 +60,18 @@ class StartCommand extends Command
                     ['text' => '🛍️ SHOP', 'callback_data' => 'brands']
                 ],
                 [
-                    ['text' => '❓ FAQ', 'callback_data' => 'random_number'],
-                    ['text' => '🛒 ORDER HISTORY', 'callback_data' => 'random_number'],
+                    ['text' => '❓ FAQ', 'callback_data' => 'faq'],
+                    ['text' => '🛒 ORDER HISTORY', 'callback_data' => 'orders'],
                 ],
                 [
-                    ['text' => '📢 CHANNEL', 'callback_data' => 'channel'],
-                    ['text' => '💬 SUPPORT', 'callback_data' => 'support'],
+                    ['text' => '📢 CHANNEL', 'url' => 'https://t.me/channel'],
+                    ['text' => '💬 SUPPORT', 'url' => 'https://t.me/support'],
                 ],
                 [
                     ['text' => '🔗 REFERRAL SYSTEM', 'callback_data' => 'referrals']
                 ],
                 [
-                    ['text' => '📜 Vouchers', 'callback_data' => 'vouchers']
+                    ['text' => '📜 Vouchers', 'url' => 'https://t.me/vouchers']
                 ],
             ]
         ], JSON_THROW_ON_ERROR);
