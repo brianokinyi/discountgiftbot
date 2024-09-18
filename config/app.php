@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'denominations' => [
+        ['value' => 50, 'discount' => 50],
+        ['value' => 100, 'discount' => 55],
+        ['value' => 200, 'discount' => 55],
+        ['value' => 500, 'discount' => 60]
+    ]
 ];

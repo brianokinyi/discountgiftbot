@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('gift_cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('country_id');
+            $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands');
-            $table->float('value', 3);
-            $table->float('discount', 2);
+            $table->unsignedBigInteger('denomination_id');
+            $table->foreign('denomination_id')->references('id')->on('denominations');
             $table->boolean('in_stock')->default(true);
             $table->timestamps();
 
-            $table->unique(['country_id', 'brand_id', 'value']);
+            $table->unique(['country_id', 'brand_id', 'denomination_id']);
         });
     }
 

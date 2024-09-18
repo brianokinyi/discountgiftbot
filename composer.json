@@ -13,9 +13,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "ramsey/uuid": "^4.7",
-        "tightenco/ziggy": "^2.0",
-        "webpatser/laravel-countries": "dev-bugfix"
-    },
+        "tightenco/ziggy": "^2.0"    },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
@@ -25,11 +23,6 @@
         "phpunit/phpunit": "^11.0.1"
     },
     "repositories": [
-        {
-            "url": "https://github.com/brianokinyi/laravel-countries",
-
-            "type": "vcs"
-        }
     ],
     "autoload": {
         "psr-4": {

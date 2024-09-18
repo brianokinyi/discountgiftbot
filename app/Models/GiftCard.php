@@ -24,6 +24,14 @@ class GiftCard extends Model
      */
     public function country(): BelongsTo
     {
-        return $this->belongsTo(Countries::class);
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Get the denomination for the gift card.
+     */
+    public function denomincation(): BelongsTo
+    {
+        return $this->belongsTo(Denomination::class);
     }
 }

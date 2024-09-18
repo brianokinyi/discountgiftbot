@@ -16,8 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->char('uuid', 16)->unique();
-            $table->string('chat_id');
-            $table->string('username');
             $table->unsignedBigInteger('gift_card_id');
             $table->foreign('gift_card_id')->references('id')->on('gift_cards');
             $table->float('price', 3); # In USD

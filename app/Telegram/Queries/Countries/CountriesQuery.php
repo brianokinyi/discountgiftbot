@@ -33,6 +33,8 @@ class CountriesQuery extends AbstractQuery
 
         $this->brand = Brand::where('slug', $slug)->with(['giftCards.country'])->firstOrFail();
 
+        Log::info((new Countries())->getList());
+
         return $event->telegram->sendMessage([
             'chat_id' => $event->update->getChat()->id,
             'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
