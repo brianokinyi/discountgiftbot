@@ -2,6 +2,7 @@
 
 use App\Telegram\Queries\Brands\BrandsQuery;
 use App\Telegram\Queries\Countries\CountriesQuery;
+use App\Telegram\Queries\GiftCards\GiftCardsQuery;
 use App\Telegram\Queries\Referrals\ReferralsQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
@@ -48,7 +49,8 @@ return [
             'queries' => [
                 BrandsQuery::class,
                 CountriesQuery::class,
-                ReferralsQuery::class
+                ReferralsQuery::class,
+                GiftCardsQuery::class
             ]
         ],
     ],

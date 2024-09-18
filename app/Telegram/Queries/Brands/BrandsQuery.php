@@ -51,9 +51,9 @@ Use the navigation buttons below to browse through different pages of available 
 
         // Add controls
         $inline_keyboard->push([
-            ['text' => '🚫', 'callback_data' => '/start'],
-            ['text' => 'Page 1/2', 'callback_data' => 'products_chik-afil-a'],
-            ['text' => 'Next ▶️', 'callback_data' => '/start'],
+            ['text' => '🚫', 'callback_data' => '/brands'],
+            ['text' => 'Page 1/1', 'callback_data' => 'brands'],
+            ['text' => 'Next ▶️', 'callback_data' => '/brands'],
         ]);
 
         return json_encode([

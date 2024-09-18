@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 class BotController extends Controller
 {
     /**
+     * Set the webhook
+     * 
      * @return JsonResponse
      */
     public function set(): JsonResponse

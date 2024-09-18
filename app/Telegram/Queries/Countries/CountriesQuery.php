@@ -65,7 +65,7 @@ Please select the country for your gift card:",
                     ['text' => '🇦🇺 Australia', 'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'au']
                 ],
                 [
-                    ['text' => '🔙 Back', 'callback_data' => 'brands' . '_' . $this->brand->slug],
+                    ['text' => '🔙 Back', 'callback_data' => 'brands'],
                 ],
             ]
         ], JSON_THROW_ON_ERROR);
