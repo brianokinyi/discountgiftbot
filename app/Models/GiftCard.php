@@ -30,7 +30,7 @@ class GiftCard extends Model
     /**
      * Get the denomination for the gift card.
      */
-    public function denomincation(): BelongsTo
+    public function denomination(): BelongsTo
     {
         return $this->belongsTo(Denomination::class);
     }

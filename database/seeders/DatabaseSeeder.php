@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             BrandSeeder::class,
             DenominationSeeder::class,
-            GiftCardSeeder::class
+            GiftCardSeeder::class,
+            CoinSeeder::class,
         ]);
 
         // User::factory(10)->withPersonalTeam()->create();

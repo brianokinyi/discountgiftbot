@@ -1,8 +1,10 @@
 <?php
 
 use App\Telegram\Queries\Brands\BrandsQuery;
+use App\Telegram\Queries\Coins\CoinsQuery;
 use App\Telegram\Queries\Countries\CountriesQuery;
 use App\Telegram\Queries\GiftCards\GiftCardsQuery;
+use App\Telegram\Queries\Orders\CreateOrderQuery;
 use App\Telegram\Queries\Referrals\ReferralsQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
@@ -50,7 +52,9 @@ return [
                 BrandsQuery::class,
                 CountriesQuery::class,
                 ReferralsQuery::class,
-                GiftCardsQuery::class
+                GiftCardsQuery::class,
+                CoinsQuery::class,
+                CreateOrderQuery::class
             ]
         ],
     ],

@@ -3,17 +3,15 @@
 namespace App\Telegram\Queries\Countries;
 
 use App\Models\Brand;
-use App\Models\Product;
+use App\Models\Country;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
 use App\Telegram\Queries\AbstractQuery;
-use Illuminate\Support\Facades\Log;
-use Webpatser\Countries\Countries;
 
 class CountriesQuery extends AbstractQuery
 {
-    protected static string $regex = '/^brands_[a-zA-Z0-9]+$/';
+    protected static string $regex = '/^query_[a-zA-Z0-9]+$/';
     
     /**
      * The selected brand
@@ -33,8 +31,6 @@ class CountriesQuery extends AbstractQuery
 
         $this->brand = Brand::where('slug', $slug)->with(['giftCards.country'])->firstOrFail();
 
-        Log::info((new Countries())->getList());
-
         return $event->telegram->sendMessage([
             'chat_id' => $event->update->getChat()->id,
             'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
@@ -50,26 +46,21 @@ Please select the country for your gift card:",
      */
     private function buildKeyboard(): false|string
     {
-        // TODO: Get countries from DB
+        $countries = Country::orderBy('position', 'ASC')->get();
+
+        $inline_keyboard = collect([]);
+
+        foreach ($countries as $country) {
+            $inline_keyboard->push([['text' => $country->flag . ' ' . $country->iso_3166_2, 'callback_data' => 'query_' . $this->brand->slug . '_' . $country->iso_3166_2]]);
+        }
+
+        // Add controls
+        $inline_keyboard->push([
+            ['text' => '🔙 Back', 'callback_data' => 'brands']
+        ]);
 
         return json_encode([
-            'inline_keyboard' => [
-                [
-                    ['text' => '🇺🇸 USA', 'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'us']
-                ],
-                [
-                    ['text' => '🇨🇦 Canada', 'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'ca']
-                ],
-                [
-                    ['text' => '🇬🇧 UK', 'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'uk']
-                ],
-                [
-                    ['text' => '🇦🇺 Australia', 'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'au']
-                ],
-                [
-                    ['text' => '🔙 Back', 'callback_data' => 'brands'],
-                ],
-            ]
+            'inline_keyboard' => $inline_keyboard,
         ], JSON_THROW_ON_ERROR);
     }
 }

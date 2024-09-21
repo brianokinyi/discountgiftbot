@@ -46,14 +46,14 @@ Use the navigation buttons below to browse through different pages of available 
         $inline_keyboard = collect([]);
 
         foreach ($brands as $brand) {
-            $inline_keyboard->push([['text' => $brand->name, 'callback_data' => 'brands_' . $brand->slug]]);
+            $inline_keyboard->push([['text' => $brand->name, 'callback_data' => 'query_' . $brand->slug]]);
         }
 
         // Add controls
         $inline_keyboard->push([
-            ['text' => '🚫', 'callback_data' => '/brands'],
-            ['text' => 'Page 1/1', 'callback_data' => 'brands'],
-            ['text' => 'Next ▶️', 'callback_data' => '/brands'],
+            ['text' => '🚫', 'callback_data' => 'query'],
+            ['text' => 'Page 1/1', 'callback_data' => 'query'],
+            ['text' => 'Next ▶️', 'callback_data' => 'query'],
         ]);
 
         return json_encode([

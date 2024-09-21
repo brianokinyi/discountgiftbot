@@ -3,24 +3,23 @@
 namespace App\Telegram\Queries\GiftCards;
 
 use App\Models\Brand;
+use App\Models\Country;
 use App\Models\GiftCard;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Message;
 use App\Telegram\Queries\AbstractQuery;
-use Illuminate\Support\Facades\Log;
-use Webpatser\Countries\Countries;
 
 class GiftCardsQuery extends AbstractQuery
 {
-    protected static string $regex = '/^brands_[a-zA-Z0-9]+_[a-zA-Z]{2}$/';
+    protected static string $regex = '/^query_[a-zA-Z0-9]+_[a-zA-Z]{2}$/';
     
     /**
      * The selected brand
      */
     protected Brand $brand;
 
-    protected Countries $country;
+    protected Country $country;
 
     /**
      * @param UpdateEvent $event
@@ -35,14 +34,17 @@ class GiftCardsQuery extends AbstractQuery
         $country_slug = $arr[2];
 
         $this->brand = Brand::where('slug', $brand_slug)->with(['giftCards.country'])->firstOrFail();
-        $this->country = Countries::where('iso_3166_2', $country_slug)->firstOrFail();
+        $this->country = Country::where('iso_3166_2', $country_slug)->firstOrFail();
+
+        $text = $this->brand->name . " Gift Cards for " . $this->country->flag . " " . $this->country->iso_3166_2 . "\n";
+        $text .= "Select the amount you want to purchase:\n\n";
+        $text .= "🔸 Each option shows the value and the discount percentage\n";
+        $text .= "🔸 Click on the desired amount to proceed with your purchase";
 
         return $event->telegram->sendMessage([
             'chat_id' => $event->update->getChat()->id,
             'reply_markup' => $this->buildKeyboard() ?? json_encode([], JSON_THROW_ON_ERROR),
-            'text' => $this->brand->name . " Gift Cards 
-
-Please select the country for your gift card:",
+            'text' => $text,
             'disable_notification' => true
         ]);
     }
@@ -52,17 +54,17 @@ Please select the country for your gift card:",
      */
     private function buildKeyboard(): false|string
     {
-        $gift_cards = GiftCard::where('brand_id', $this->brand->id)->where('country_id', $this->country->id)->get();
+        $gift_cards = GiftCard::where('brand_id', $this->brand->id)->where('country_id', $this->country->id)->with(['denomination'])->get();
 
         $inline_keyboard = collect([]);
 
         foreach ($gift_cards as $gift_card) {
             if ($gift_card->in_stock) {
-                $price = (100 - $gift_card->discount)/100 * $gift_card->value;
+                $price = (100 - $gift_card->denomination->discount)/100 * $gift_card->denomination->denomination;
                 $inline_keyboard->push([
                     [
-                        'text' => '💳 $' . $gift_card->value . ' Gift Card - ' . $gift_card->discount . '% OFF | Price: 💰 $' . $price, 
-                        'callback_data' => 'brands' . '_' . $this->brand->slug . '_' . 'us'
+                        'text' => '💳 $' . $gift_card->denomination->denomination . ' Gift Card - ' . $gift_card->denomination->discount . '% OFF | Price: 💰 $' . $price, 
+                        'callback_data' => 'getCoins' . '_' . $gift_card->id # E.g giftcard_1
                     ]
                 ]);
             } else {
