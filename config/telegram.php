@@ -5,6 +5,7 @@ use App\Telegram\Queries\Coins\CoinsQuery;
 use App\Telegram\Queries\Countries\CountriesQuery;
 use App\Telegram\Queries\GiftCards\GiftCardsQuery;
 use App\Telegram\Queries\Orders\CreateOrderQuery;
+use App\Telegram\Queries\Orders\GetOrdersQuery;
 use App\Telegram\Queries\Referrals\ReferralsQuery;
 use Telegram\Bot\Commands\HelpCommand;
 
@@ -54,8 +55,10 @@ return [
                 ReferralsQuery::class,
                 GiftCardsQuery::class,
                 CoinsQuery::class,
-                CreateOrderQuery::class
-            ]
+                CreateOrderQuery::class,
+                GetOrdersQuery::class
+            ],
+            'username' => env('TELEGRAM_BOT_USERNAME')
         ],
     ],
 

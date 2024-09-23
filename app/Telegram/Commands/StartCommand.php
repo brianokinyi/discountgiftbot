@@ -33,13 +33,14 @@ class StartCommand extends Command
             ]
         );
 
-        $text = "✨ Welcome to the Gift Card Bot! ✨ \n\n" . 
-                "🎁 Here you can purchase gift cards at amazing discounts! \n\n" . 
-                "🛍️ How it works:\n" . 
-                "1. Choose a gift card from the shop.\n" .
-                "2. Complete the payment.\n" .
-                "3. Receive your gift card instantly! \n\n" .
-                "🔽 Use the buttons below to navigate: 🔽";
+        $text = "✨ Welcome to the Gift Card Bot! ✨ \n";
+        $text .= "🎁 Here you can purchase gift cards at amazing discounts! \n\n";
+        $text .= "🛍️ How it works:\n";
+        $text .= "1. Choose a gift card from the shop.\n";
+        $text .= "2. Complete the payment.\n";
+        $text .= "3. Receive your gift card instantly! \n\n";
+        $text .= "🔽 Use the buttons below to navigate: 🔽\n";
+        $text .= "💫 Ready to unlock amazing deals? Let's get started! 🎉";
 
 
         $this->replyWithMessage([
@@ -61,7 +62,7 @@ class StartCommand extends Command
                 ],
                 [
                     ['text' => '❓ FAQ', 'callback_data' => 'faq'],
-                    ['text' => '🛒 ORDER HISTORY', 'callback_data' => 'orders'],
+                    ['text' => '🛒 ORDER HISTORY', 'callback_data' => 'getOrders'],
                 ],
                 [
                     ['text' => '📢 CHANNEL', 'url' => 'https://t.me/channel'],
